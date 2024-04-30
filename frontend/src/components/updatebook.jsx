@@ -12,14 +12,17 @@ const UpdateBook = () => {
   const [available_copies, setAvailableCopies] = useState("");
   const HandleUpdate = async (e) => {
     e.preventDefault();
-    const requestData = {
-      isbn: isbn,
+    const updatedDetails = {
       title: title,
       authors: authors,
       publisher: publisher,
-      version: version,
+      version: parseInt(version),
       total_copies: parseInt(total_copies),
-      available_copies: parseInt(available_copies),
+      available_copies: parseInt(available_copies)
+    };
+    const requestData = {
+      isbn: isbn,
+      updated_details: updatedDetails
     };
     try {
       const response = await fetch("/update-book", {

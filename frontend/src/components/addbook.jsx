@@ -14,23 +14,26 @@ const AddBook = () => {
   const [adminemail, setAdminEmail] = useState("");
 
   const Handler = async () => {
+    var requestData = {
+        book: {
+            isbn: isbn,
+            lib_id: parseInt(lib_id),
+            title: title,
+            authors: authors,
+            publisher: publisher,
+            version: parseInt(version), // Convert to number
+            total_copies: parseInt(total_copies),
+            available_copies: parseInt(available_copies)
+        },
+        email: adminemail
+    };
     try {
       const response = await fetch("/add-book", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          isbn: isbn,
-          lib_id:lib_id,
-          title: title,
-          authors: authors,
-          publisher: publisher,
-          version: version,
-          total_copies: total_copies,
-          available_copies: available_copies,
-          email: adminemail,
-        }),
+        body: JSON.stringify(requestData),
       });
       const data = await response.json();
       if (response.status === 400) {
@@ -54,7 +57,7 @@ const AddBook = () => {
         <h1>ADD BOOK</h1>
         <div className={styles.addbookdiv}>
           <div>
-            <img src={addbookImage} />
+            <img src={addbookImage}  alt="addbookimage"/>
           </div>
           <div className={styles.mainContent}>
             <label htmlFor="isbn">ISBN:</label>
