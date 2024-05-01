@@ -58,10 +58,15 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "no record found"})
 		return
 	}
+	tokenString, err := createToken(credentials.Email)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to generate token"})
+		return
+	}
 	if user.Role == "Admin" {
-		c.JSON(http.StatusOK, gin.H{"message": "admin successfully logged in"})
+		c.JSON(http.StatusOK, gin.H{"message": "admin successfully logged in", "token": tokenString})
 		return
 	} else {
-		c.JSON(http.StatusOK, gin.H{"message": "reader successfully logged in"})
+		c.JSON(http.StatusOK, gin.H{"message": "reader successfully logged in", "token": tokenString})
 	}
 }
